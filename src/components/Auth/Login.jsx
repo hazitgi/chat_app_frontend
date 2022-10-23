@@ -1,20 +1,25 @@
 import React, { useState } from "react";
 import loginImage from "../../asset/images/login.svg";
 import "./Auth.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../../store/Actions/auth";
+// import AuthService from "../../services/Auth";
+import { useDispatch } from "react-redux";
 
-import AuthService from "../../services/Auth";
-
-const Login = () => {
+const Login = (props) => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const submitForm = (e) => {
     e.preventDefault();
     console.log(email, password);
-    AuthService.login({ email, password }).then((result) => {
-      console.log(result);
-    });
+    // AuthService.login({ email, password }).then((result) => {
+    //   console.log(result);
+    // });
+    dispatch(login({ email, password },navigate));
+    console.log(dispatch);
   };
   return (
     <div>
