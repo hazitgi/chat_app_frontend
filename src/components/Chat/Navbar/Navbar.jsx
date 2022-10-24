@@ -21,8 +21,6 @@ function Navbar() {
     e.preventDefault();
     const form = { firstName, lastName, email, gender, avatar };
 
-    console.log(form);
-
     if (password.length > 0) form.password = password;
 
     const formData = new FormData();
