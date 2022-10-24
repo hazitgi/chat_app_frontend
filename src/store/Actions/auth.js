@@ -1,9 +1,8 @@
 import AuthService from "../../services/authService";
-export const LOGIN = "LOGIN";
-export const REGISTER = "REGISTER";
+import { LOGIN, LOGOUT, REGISTER, UPDATE_PROFILE } from "../types";
 
 export const login = (params, navigate) => (dispath) => {
-  AuthService.login(params)
+  return AuthService.login(params)
     .then((data) => {
       console.log(data);
       dispath({ type: LOGIN, payload: data });
@@ -14,7 +13,7 @@ export const login = (params, navigate) => (dispath) => {
     });
 };
 export const register = (params, navigate) => (dispath) => {
-  AuthService.register(params)
+  return AuthService.register(params)
     .then((data) => {
       console.log(data);
       dispath({ type: REGISTER, payload: data });
@@ -22,5 +21,20 @@ export const register = (params, navigate) => (dispath) => {
     })
     .catch((error) => {
       console.log(error);
+    });
+};
+export const logout = () => (dispath) => {
+  AuthService.logout();
+  dispath({ type: LOGOUT });
+};
+export const updateProfile = (params) => (dispath) => {
+  return AuthService.updateProfile(params)
+    .then((data) => {
+      dispath({ type: UPDATE_PROFILE, payload: data });
+      return data;
+    })
+    .catch((error) => {
+      console.log(error, "error in update profile action");
+      throw error;
     });
 };

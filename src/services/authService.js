@@ -4,7 +4,7 @@ const AuthService = {
   login: async (data) => {
     return API.post("/login", data)
       .then(({ data }) => {
-        API.defaults.headers["Authorization"] = `Bearer ${data.token}`;
+        setHeaderAndStorage(data);
         return data;
       })
       .catch((error) => {
@@ -12,10 +12,11 @@ const AuthService = {
         throw error;
       });
   },
+
   register: async (data) => {
     return API.post("/register", data)
       .then(({ data }) => {
-        API.defaults.headers["Authorization"] = `Bearer ${data.token}`;
+        setHeaderAndStorage(data);
         return data;
       })
       .catch((error) => {
@@ -25,6 +26,33 @@ const AuthService = {
         throw error;
       });
   },
+  logout: () => {
+    API.defaults.headers["Authorization"] = "";
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+  },
+  updateProfile: async (data) => {
+    const config = {
+      // "Content-Type": `multipart/form-data`,
+      "Content-Type": "application/x-www-form-urlencoded"
+    };
+    return API.post("/users/update", data, config)
+      .then((result) => {
+        const {data} = result
+        localStorage.setItem("user", JSON.stringify(data));
+        return result;
+      })
+      .catch((error) => {
+        console.log(`update profile error`, error.message);
+        throw error;
+      });
+  },
+};
+
+const setHeaderAndStorage = ({ user, token }) => {
+  API.defaults.headers["Authorization"] = `Bearer ${token}`;
+  localStorage.setItem("user", JSON.stringify(user));
+  localStorage.setItem("token", token);
 };
 
 export default AuthService;
