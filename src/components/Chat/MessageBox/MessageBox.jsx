@@ -6,7 +6,7 @@ import "./MessageBox.scss";
 const MessageBox = ({ chat }) => {
   const user = useSelector((state) => state.authReducer.user);
   return (
-    <div className="msg-box">
+    <div id="msg-box">
       {chat.Messages.map((message, index) => {
         return (
           <Message
