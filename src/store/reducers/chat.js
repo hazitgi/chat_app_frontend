@@ -26,9 +26,85 @@ const chatReducer = (state = initialState, action) => {
         currentChat: payload,
       };
     case FRIENDS_ONLINE:
+      const chatsCopy = state.chats.map((chat) => {
+        return {
+          ...chat,
+          Users: chat.Users.map((user) => {
+            if (payload.includes(user.id)) {
+              return {
+                ...user,
+                status: "online",
+              };
+            }
+            return user;
+          }),
+        };
+      });
       return {
-      //  const chatsCopy = state.chats.map()
+        ...state,
+        chats: chatsCopy,
       };
+
+    case FRIEND_ONLINE: {
+      let currentChatCopy = { ...state.currentChat };
+      const chatsCopy = state.chats.map((chat) => {
+        const Users = chat.Users.map((user) => {
+          if (user.id === payload.id) {
+            return {
+              ...user,
+              status: "online",
+            };
+          }
+          return user;
+        });
+        if (chat.id === currentChatCopy.id) {
+          currentChatCopy = {
+            ...currentChatCopy,
+            Users,
+          };
+        }
+
+        return {
+          ...chat,
+          Users,
+        };
+      });
+      return {
+        ...state,
+        chats: chatsCopy,
+        currentChat: currentChatCopy,
+      };
+    }
+    case FRIEND_OFFLINE: {
+      let currentChatCopy = { ...state.currentChat };
+      const chatsCopy = state.chats.map((chat) => {
+        const Users = chat.Users.map((user) => {
+          if (user.id === payload.id) {
+            return {
+              ...user,
+              status: "offline",
+            };
+          }
+          return user;
+        });
+        if (chat.id === currentChatCopy.id) {
+          currentChatCopy = {
+            ...currentChatCopy,
+            Users,
+          };
+        }
+
+        return {
+          ...chat,
+          Users,
+        };
+      });
+      return {
+        ...state,
+        chats: chatsCopy,
+        currentChat: currentChatCopy,
+      };
+    }
     default:
       return state;
   }

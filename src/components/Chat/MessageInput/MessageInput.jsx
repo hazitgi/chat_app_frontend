@@ -16,7 +16,7 @@ const MessageInput = ({ chat }) => {
   };
 
   const handleKeyDown = (e, imageUpload) => {
-    if (e.key === "enter") setMessage(imageUpload);
+    if (e.key === "enter") sendMessage(imageUpload);
 
     const sendMessage = (imageUpload) => {
       if (message.length < 1 && !imageUpload) return;

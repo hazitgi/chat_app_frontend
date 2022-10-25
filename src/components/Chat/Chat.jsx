@@ -13,11 +13,11 @@ const Chat = () => {
 
   useSocket(user, dispatch);
 
-  useEffect(() => {
-    dispatch(fetchChats())
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err, "error in Chat.jsx"));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchChats())
+  //     .then((res) => console.log(res))
+  //     .catch((err) => console.log(err, "error in Chat.jsx"));
+  // }, [dispatch]);
   return (
     <div id="chat-container">
       <Navbar />
