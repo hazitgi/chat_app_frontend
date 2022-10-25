@@ -1,5 +1,5 @@
 import axios from "axios";
-import { login, logout } from "../store/Actions/auth";
+import { logout } from "../store/Actions/auth";
 import store from "../store";
 
 const API = axios.create({
@@ -15,7 +15,7 @@ API.interceptors.response.use(
     return res;
   },
   (err) => {
-    if (err.response.status !== 401) {
+    if (err.status !== 401) {
       throw err;
     }
     if (typeof err.response.data.error.name !== "undefined") {
