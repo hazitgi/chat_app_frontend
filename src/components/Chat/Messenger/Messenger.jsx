@@ -11,14 +11,14 @@ const Messenger = () => {
   const activeChat = () => {
     return Object.keys(chat).length > 0;
   };
-
+console.log('rendering ',"Messenger");
   return (
     <div id="messenger" className="shadow-light">
       {activeChat() ? (
         <div id="messenger-wrap">
           <ChatHeader chat={chat} />
           <hr />
-          <MessageBox chat={chat} />
+          <MessageBox chat={chat}/>
           <MessageInput chat={chat} />
         </div>
       ) : (

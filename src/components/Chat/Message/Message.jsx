@@ -2,6 +2,8 @@ import React from "react";
 import "./Message.scss";
 
 const Message = ({ user, chat, message, index }) => {
+  // console.log(message , "messagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessage");
+  // console.log("message.id", message.id);
   const determineMargnin = () => {
     if (index + 1 === chat.Messages.length) return;
     return message.fromUserId === chat.Messages[index + 1].fromUserId

@@ -17,7 +17,6 @@ export const fetchChats = () => (dispatch) => {
         });
         chat.Messages.reverse();
       });
-      console.log(data);
       dispatch({ type: FETCH_CHATS, payload: data });
     })
     .catch((err) => {

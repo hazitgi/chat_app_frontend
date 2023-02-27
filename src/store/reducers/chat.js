@@ -54,7 +54,7 @@ const chatReducer = (state = initialState, action) => {
       let currentChatCopy = { ...state.currentChat };
       const chatsCopy = state.chats.map((chat) => {
         const Users = chat.Users.map((user) => {
-          if (user.id === payload.id) {
+          if (user.id === parseInt(payload.id)) {
             return {
               ...user,
               status: "online",

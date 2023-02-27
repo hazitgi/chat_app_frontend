@@ -20,6 +20,7 @@ const MessageInput = ({ chat }) => {
     if (e.key === "Enter") sendMessage(imageUpload);
   };
   const sendMessage = (imageUpload) => {
+    console.log("sendMessagesendMessagesendMessage");
     if (message.length < 1 && !imageUpload) return;
 
     const msg = {
@@ -30,8 +31,11 @@ const MessageInput = ({ chat }) => {
       message: imageUpload ? Image : message,
     };
 
+    console.log(message , "9999999999999999999");
     setMessage("");
+    console.log(message , "9999999999999999999");
     setImage("");
+    console.log(Image , "9999999999999999999");
 
     // send message with socket
 

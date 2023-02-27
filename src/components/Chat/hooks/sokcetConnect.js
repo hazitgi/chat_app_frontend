@@ -19,7 +19,7 @@ const useSocket = (user, dispatch) => {
 
         socket.emit("join", user);
         socket.on("typing", (user) => {
-          console.log("Event", user);
+          console.log("Event typing", user);
         });
         socket.on("friends", (friends) => {
           console.log("friends", friends);
@@ -36,10 +36,9 @@ const useSocket = (user, dispatch) => {
 
         socket.on("received", (message) => {
           //
+          console.log(`socket.on("received", (message) => {`, message ,"5555555555555555555");
           dispatch(receivedMessage(message, user.id));
         });
-
-        console.log(res);
       })
       .catch((err) => console.log(err));
   }, [dispatch]);
