@@ -34,11 +34,11 @@ const AuthService = {
   updateProfile: async (data) => {
     const config = {
       // "Content-Type": `multipart/form-data`,
-      "Content-Type": "application/x-www-form-urlencoded"
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
     };
     return API.post("/users/update", data, config)
       .then((result) => {
-        const {data} = result
+        const { data } = result;
         localStorage.setItem("user", JSON.stringify(data));
         return result;
       })

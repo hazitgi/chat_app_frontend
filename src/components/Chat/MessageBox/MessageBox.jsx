@@ -1,28 +1,57 @@
-import React, { useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect, useRef, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { paginateMessages } from "../../../store/Actions/chat";
 import Message from "../Message/Message";
 import "./MessageBox.scss";
-let i = 0;
 const MessageBox = ({ chat }) => {
-  console.log("renderingMessageBox MessageBoxMessageBox MessageBox", i);
-  i++;
-
+  console.log("renderingMessageBox MessageBoxMessageBox MessageBox");
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.authReducer.user);
 
-  const scrolBottom = useSelector((state) => state.chatReducer.scrolBottom);
+  const scrollBottom = useSelector((state) => state.chatReducer.scrollBottom);
+  const senderTyping = useSelector((state) => state.chatReducer.senderTyping);
   const msgBox = useRef();
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
-      scrollManual(msgBox.current.scrolHeight);
+      scrollManual(msgBox.current.scrollHeight);
     }, 100);
-  }, [scrolBottom]);
+  }, [scrollBottom]);
 
   const scrollManual = (value) => {
     msgBox.current.scrollTop = value;
   };
+
+  const handleInfinitScroll = (e) => {
+    if (e.target.scrollTop === 0) {
+      setLoading(true);
+      const pagination = chat.Pagination;
+      const page = typeof pagination === "undefined" ? 1 : pagination.page;
+
+      // dispatch
+      dispatch(paginateMessages(chat.id, parseInt(page) + 1))
+        .then((res) => {
+          if (res) {
+          }
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+        });
+    }
+  };
+
+  console.log("msgBox.current.scrolHeight", msgBox?.current?.scrolHeight);
   return (
-    <div id="msg-box" ref={msgBox}>
+    <div id="msg-box" ref={msgBox} onScroll={handleInfinitScroll}>
+      {loading ? (
+        <p className="loader m-0">
+          <FontAwesomeIcon icon="spinner" className="fa-spin" />
+        </p>
+      ) : null}
       {chat.Messages.map((message, index) => {
         return (
           <Message
@@ -34,6 +63,16 @@ const MessageBox = ({ chat }) => {
           />
         );
       })}
+      {senderTyping?.typing && senderTyping.chatId === chat.id ? (
+        <div className="message">
+          <div className="other-person">
+            <p className="m-0">
+              {senderTyping?.formUser?.firstName}{" "}
+              {senderTyping?.formUser?.lastName} typing...
+            </p>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };

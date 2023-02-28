@@ -6,6 +6,7 @@ import {
   onlineFriend,
   onlineFriends,
   receivedMessage,
+  senderTyping,
   setSocket,
 } from "../../../store/Actions/chat";
 
@@ -36,8 +37,14 @@ const useSocket = (user, dispatch) => {
 
         socket.on("received", (message) => {
           //
-          console.log(`socket.on("received", (message) => {`, message ,"5555555555555555555");
           dispatch(receivedMessage(message, user.id));
+        });
+
+        // for showing typing buble
+        socket.on("typing", (sender) => {
+          //
+
+          dispatch(senderTyping(sender));
         });
       })
       .catch((err) => console.log(err));

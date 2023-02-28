@@ -6,6 +6,8 @@ import {
   FRIEND_ONLINE,
   SET_SOCKET,
   RECEIVED_MESSAGE,
+  SENDER_TYPING,
+  PAGINATE_MESSAGES,
 } from "../Actions/chat";
 
 const initialState = {
@@ -13,7 +15,8 @@ const initialState = {
   currentChat: {},
   socket: {},
   newMessage: { chatId: null, seen: null },
-  scrolBottom: 0,
+  scrollBottom: 0,
+  senderTyping: { typing: false },
 };
 
 const chatReducer = (state = initialState, action) => {
@@ -29,6 +32,8 @@ const chatReducer = (state = initialState, action) => {
       return {
         ...state,
         currentChat: payload,
+        scrollBottom: state.scrollBottom + 1,
+        newMessage: { chatId: null, seen: null },
       };
     case FRIENDS_ONLINE:
       const chatsCopy = state.chats.map((chat) => {
@@ -120,12 +125,12 @@ const chatReducer = (state = initialState, action) => {
       const { userId, message } = payload;
       let currentChatCopy = { ...state.currentChat };
       let newMessage = { ...state.newMessage };
-      let scrolBottom = state.scrolBottom;
+      let scrollBottom = state.scrollBottom;
 
       const chatsCopy = state.chats.map((chat) => {
         if (message.chatId === chat.id) {
           if (message.User.id === userId) {
-            scrolBottom++;
+            scrollBottom++;
           } else {
             newMessage = {
               chatId: chat.id,
@@ -146,12 +151,13 @@ const chatReducer = (state = initialState, action) => {
         return chat;
       });
 
-      if (scrolBottom === state.scrolBottom) {
+      if (scrollBottom === state.scrollBottom) {
         return {
           ...state,
           chats: chatsCopy,
           currentChat: currentChatCopy,
           newMessage,
+          senderTyping: { typing: false },
         };
       }
       return {
@@ -159,7 +165,47 @@ const chatReducer = (state = initialState, action) => {
         chats: chatsCopy,
         currentChat: currentChatCopy,
         newMessage,
-        scrolBottom,
+        scrollBottom,
+        senderTyping: { typing: false },
+      };
+    }
+    case SENDER_TYPING: {
+      if (payload.typing) {
+        return {
+          ...state,
+          senderTyping: payload,
+          scrollBottom: state.scrollBottom + 1,
+        };
+      }
+      return {
+        ...state,
+        senderTyping: payload,
+      };
+    }
+    case PAGINATE_MESSAGES: {
+      const { messages, id, pagination } = payload;
+      let currentChatCopy = { ...state.currentChat };
+      const chatsCopy = state.chats.map((chat) => {
+        if (chat.id === id) {
+          const shifted = [...messages, ...chat.Messages];
+
+          currentChatCopy = {
+            ...currentChatCopy,
+            Messages: shifted,
+            Pagination: pagination,
+          };
+          return {
+            ...chat,
+            Messages: shifted,
+            Pagination: pagination,
+          };
+        }
+        return chat;
+      });
+      return {
+        ...state,
+        chats: chatsCopy,
+        currentChat: currentChatCopy,
       };
     }
     default:

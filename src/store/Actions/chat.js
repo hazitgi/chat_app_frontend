@@ -7,6 +7,8 @@ export const FRIEND_ONLINE = "FRIEND_ONLINE";
 export const FRIEND_OFFLINE = "FRIEND_OFFLINE";
 export const SET_SOCKET = "SET_SOCKET";
 export const RECEIVED_MESSAGE = "RECEIVED_MESSAGE";
+export const SENDER_TYPING = "SENDER_TYPING";
+export const PAGINATE_MESSAGES = "PAGINATE_MESSAGES";
 
 export const fetchChats = () => (dispatch) => {
   return ChatSerice.fetchChats()
@@ -43,4 +45,22 @@ export const setSocket = (socket) => (dispatch) => {
 };
 export const receivedMessage = (message, userId) => (dispatch) => {
   dispatch({ type: RECEIVED_MESSAGE, payload: { message, userId } });
+};
+export const senderTyping = (sender) => (dispatch) => {
+  dispatch({ type: SENDER_TYPING, payload: sender });
+};
+export const paginateMessages = (id, page) => (dispatch) => {
+  return ChatSerice.paginateMessages(id, page)
+    .then(({ messages, pagination }) => {
+      if (typeof messages !== "undefined" && messages.length > 0) {
+        messages.reverse();
+        const payload = { messages, id, pagination };
+        dispatch({ type: PAGINATE_MESSAGES, payload: payload });
+        return true;
+      }
+      return false;
+    })
+    .catch((err) => {
+      throw err;
+    });
 };

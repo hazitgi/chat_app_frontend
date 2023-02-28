@@ -1,90 +1,115 @@
-@import '../../../asset/scss/_variable.scss';
+@import "../../../asset/scss/_variable.scss";
 
 #input-container {
+  position: relative;
+
+  #image-upload-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 2.5px 2.5px 2.5px 0;
     position: relative;
 
-    #image-upload-container {
-        display: flex;
-        justify-content: space-between;
-        padding: 2.5px 2.5px 2.5px 0;
-        position: relative;
-
-        #image-upload {
-            display: flex;
-        }
-
-        #message-notification {
-            display: flex;
-            cursor: pointer;
-            border: 1px solid $bg-main;
-            border-radius: 15px;
-            padding: 5px;
-
-            .fa-icon {
-                color: $bg-main;
-                margin-right: 5px
-            }
-        }
-
-        .fa-icon {
-            position: relative;
-            right: 0;
-            top: 0;
-        }
-
-        #image-details {
-            padding: 2px;
-            border: 1px solid black;
-            margin-right: 5px;
-            display: flex;
-            align-items: center;
-
-            .fa-icon {
-                margin: 0 4px;
-            }
-        }
-
+    #image-upload {
+      display: flex;
     }
 
-    #message-input {
-        position: relative;
+    #message-notification {
+      display: flex;
+      cursor: pointer;
+      border: 1px solid $bg-main;
+      border-radius: 15px;
+      padding: 5px;
 
-        input {
-            width: 100%;
-            box-sizing: border-box;
-        }
+      .fa-icon {
+        color: $bg-main;
+        margin-right: 5px;
+      }
     }
 
     .fa-icon {
-        font-size: 20px;
-        color: $bg-main;
-        position: absolute;
-        right: 5px;
-        top: 8px;
-        cursor: pointer
+      position: relative;
+      right: 0;
+      top: 0;
     }
 
-    .mb-5p {
-        margin-bottom: 5px;
-    }
+    #image-details {
+      padding: 2px;
+      border: 1px solid black;
+      margin-right: 5px;
+      display: flex;
+      align-items: center;
 
-    .mb-10p {
-        margin-bottom: 10px;
+      .fa-icon {
+        margin: 0 4px;
+      }
     }
+  }
+
+  #message-input {
+    position: relative;
 
     input {
-        border: none;
-        background-color: #f5f6f8;
-        padding: 10px;
+      width: 100%;
+      box-sizing: border-box;
     }
+  }
 
-    #chat-image {
-        position: absolute;
-        visibility: hidden;
-        top: 0;
-        left: 0;
-        width: 0;
-        height: 0;
-        opacity: 0.0;
-    }
+  .fa-icon {
+    font-size: 20px;
+    color: $bg-main;
+    position: absolute;
+    right: 5px;
+    top: 8px;
+    cursor: pointer;
+  }
+
+  .mb-5p {
+    margin-bottom: 5px;
+  }
+
+  .mb-10p {
+    margin-bottom: 10px;
+  }
+
+  input {
+    border: none;
+    background-color: #f5f6f8;
+    padding: 10px;
+  }
+
+  #chat-image {
+    position: absolute;
+    visibility: hidden;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  &:nth-child(4) {
+    position: relative;
+  }
+
+  em-emoji-picker {
+    position: absolute;
+    bottom: 35px;
+    right: 0px;
+
+    --background-rgb: 85, 170, 255;
+    --border-radius: 24px;
+    --category-icon-size: 24px;
+    --color-border-over: rgba(0, 0, 0, 0.1);
+    --color-border: rgba(0, 0, 0, 0.05);
+    --font-family: "Comic Sans MS", "Chalkboard SE", cursive;
+    --font-size: 20px;
+    --rgb-accent: 255, 105, 180;
+    --rgb-background: 262, 240, 283;
+    --rgb-color: 102, 51, 153;
+    --rgb-input: 255, 235, 235;
+    --shadow: 5px 5px 15px -8px rebeccapurple;
+
+    height: 50vh;
+    min-height: 400px;
+    max-height: 800px;
+  }
 }
