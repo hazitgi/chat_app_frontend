@@ -14,11 +14,14 @@ const MessageBox = ({ chat }) => {
   const msgBox = useRef();
 
   const [loading, setLoading] = useState(false);
+  const [scrollUp, setScrollUp] = useState(0);
 
   useEffect(() => {
-    setTimeout(() => {
-      scrollManual(msgBox.current.scrollHeight);
-    }, 100);
+    if (!senderTyping.typing) {
+      setTimeout(() => {
+        scrollManual(msgBox.current.scrollHeight);
+      }, 100);
+    }
   }, [scrollBottom]);
 
   const scrollManual = (value) => {
@@ -35,6 +38,7 @@ const MessageBox = ({ chat }) => {
       dispatch(paginateMessages(chat.id, parseInt(page) + 1))
         .then((res) => {
           if (res) {
+            setScrollUp(scrollUp + 1);
           }
           setLoading(false);
         })
@@ -43,6 +47,10 @@ const MessageBox = ({ chat }) => {
         });
     }
   };
+
+  useEffect(() => {
+    scrollManual(Math.ceil(msgBox.current.scrollHeight * 0.1));
+  }, [scrollUp]);
 
   console.log("msgBox.current.scrolHeight", msgBox?.current?.scrolHeight);
   return (
