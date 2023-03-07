@@ -15,7 +15,7 @@ API.interceptors.response.use(
     return res;
   },
   (err) => {
-    if (err.status !== 401) {
+    if (err?.response?.status !== 401) {
       throw err;
     }
     if (typeof err.response.data.error.name !== "undefined") {

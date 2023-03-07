@@ -31,6 +31,32 @@ const ChatSerice = {
         throw err;
       });
   },
+
+  searchUsers: (term) => {
+    return API.get("/users/search-users", {
+      params: {
+        term,
+      },
+    })
+      .then(({ data }) => {
+        return data;
+      })
+      .catch((err) => {
+        throw err;
+      });
+  },
+
+  createChat: (partnerId) => {
+    return API.post("/chats/create", {
+      partnerId,
+    })
+      .then(({ data }) => {
+        return data;
+      })
+      .catch((err) => {
+        throw err;
+      });
+  },
 };
 
 export default ChatSerice;
