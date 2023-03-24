@@ -10,6 +10,8 @@ import {
   setSocket,
   createChat,
   addUserToGroup,
+  leaveCurrentChat,
+  deleteCurrentChat,
 } from "../../../store/Actions/chat";
 
 const useSocket = (user, dispatch) => {
@@ -56,6 +58,13 @@ const useSocket = (user, dispatch) => {
         socket.on("added-user-to-group", (group) => {
           // dispatch
           dispatch(addUserToGroup(group));
+        });
+        socket.on("remove-user-from-chat", (data) => {
+          data.currentUserId = user.id;
+          dispatch(leaveCurrentChat(data));
+        });
+        socket.on("delete-chat", (chatId) => {
+          dispatch(deleteCurrentChat(chatId));
         });
       })
       .catch((err) => console.log(err));

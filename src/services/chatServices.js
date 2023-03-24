@@ -69,6 +69,28 @@ const ChatSerice = {
         throw err;
       });
   },
+  leaveCurrentChat: (chatId) => {
+    return API.post("/chats/leave-current-chat", {
+      chatId,
+    })
+      .then(({ data }) => {
+        return data;
+      })
+      .catch((err) => {
+        throw err;
+      });
+  },
+  deleteCurrentChat: (chatId) => {
+    return API.delete(`/chats/${chatId}`, {
+      chatId,
+    })
+      .then(({ data }) => {
+        return data;
+      })
+      .catch((err) => {
+        throw err;
+      });
+  },
 };
 
 export default ChatSerice;
