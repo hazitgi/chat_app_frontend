@@ -9,6 +9,7 @@ import {
   senderTyping,
   setSocket,
   createChat,
+  addUserToGroup,
 } from "../../../store/Actions/chat";
 
 const useSocket = (user, dispatch) => {
@@ -51,6 +52,10 @@ const useSocket = (user, dispatch) => {
         socket.on("new-chat", (chat) => {
           // dispatch
           dispatch(createChat(chat));
+        });
+        socket.on("added-user-to-group", (group) => {
+          // dispatch
+          dispatch(addUserToGroup(group));
         });
       })
       .catch((err) => console.log(err));
